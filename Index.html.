@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bloxjj - Loja Roblox</title>
+<style>
+body{background:#10111c;color:white;font-family:Arial;text-align:center;margin:0}
+header{background:#713cff;padding:25px}
+h1{font-size:40px}
+.card{background:#222438;margin:15px;padding:20px;border-radius:15px}
+button{background:#713cff;color:white;padding:12px;border:0;border-radius:8px}
+a{color:#00e5ff}
+</style>
+</head>
+<body>
+
+<header>
+<h1>🎮 BLOXJJ</h1>
+<p>Loja de contas Roblox</p>
+</header>
+
+<h2>Contas disponíveis</h2>
+
+<div class="card">
+<h3>Conta Roblox Iniciante</h3>
+<p>Conta para iniciantes</p>
+<h2>R$ 20,00</h2>
+</div>
+
+<div class="card">
+<h3>Roube um Ovo</h3>
+<p>Conta iniciante</p>
+<h2>R$ 20,00</h2>
+</div>
+
+<div class="card">
+<h3>Blox Fruits</h3>
+<p>Conta iniciante</p>
+<h2>R$ 20,00</h2>
+</div>
+
+<h2>Contato</h2>
+<a href="https://instagram.com/gert.rudes62">
+<button>Comprar pelo Instagram</button>
+</a>
+
+<p>Instagram: @gert.rudes62</p>
+
+</body>
+</html>
