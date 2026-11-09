@@ -1,49 +1,74 @@
-
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bloque JJ</title>
+<title>BLOQUE JJ</title>
 
 <style>
 *{box-sizing:border-box}
 body{
-  background:#111;color:white;font-family:Arial;
-  margin:0;text-align:center
+background:#101010;
+color:white;
+font-family:Arial,sans-serif;
+margin:0;
+text-align:center
 }
 header{
-  background:linear-gradient(135deg,#d7192d,#65000c);
-  padding:25px
+background:linear-gradient(135deg,#e21d32,#65000c);
+padding:25px
 }
 h1{font-size:35px}
 a{color:#ff6677}
 button{
-  background:#e21d32;color:white;border:0;
-  padding:12px 18px;margin:5px;border-radius:8px;
-  cursor:pointer
+background:#e21d32;
+color:white;
+border:0;
+padding:12px 18px;
+margin:5px;
+border-radius:8px;
+cursor:pointer
 }
 input,select,textarea{
-  padding:12px;margin:6px;width:90%;
-  max-width:400px;border-radius:8px;border:0
+padding:12px;
+margin:6px;
+width:90%;
+max-width:400px;
+border-radius:8px;
+border:0
 }
 .card{
-  background:#292929;padding:15px;margin:12px;
-  border-radius:12px;border:1px solid #444
+background:#292929;
+padding:15px;
+margin:12px;
+border-radius:12px;
+border:1px solid #444
 }
-#admin{display:none;background:#222;padding:20px}
+#admin{
+display:none;
+background:#222;
+padding:20px
+}
 .gallery{
-  display:flex;gap:8px;flex-wrap:wrap;
-  justify-content:center
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+justify-content:center
 }
 .gallery img{
-  width:30%;max-width:180px;
-  border-radius:8px;object-fit:cover
+width:30%;
+max-width:180px;
+border-radius:8px;
+object-fit:cover
 }
-.price{color:#ff334b;font-size:24px}
+.price{
+color:#ff334b;
+font-size:24px
+}
 footer{
-  background:#080808;padding:25px;margin-top:30px
+background:#080808;
+padding:25px;
+margin-top:30px
 }
 </style>
 </head>
@@ -97,6 +122,7 @@ target="_blank">Instagram @gert.rudes62</a>
 
 <script>
 const senha="blocksGG-demo";
+
 let produtos=JSON.parse(
 localStorage.getItem("bloqueJJ")||"[]"
 );
@@ -107,18 +133,24 @@ localStorage.setItem(
 );
 }
 
+function escapar(texto){
+return String(texto).replace(/[&<>"']/g,
+c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
+'"':"&quot;","'":"&#39;"}[c]));
+}
+
 function mostrar(){
 const area=document.getElementById("products");
 area.innerHTML="";
 
-produtos.forEach((p,i)=>{
+produtos.forEach(p=>{
 const card=document.createElement("div");
 card.className="card";
 
 card.innerHTML=`
-<h3>${escapeHTML(p.nome)}</h3>
-<p>${escapeHTML(p.categoria)}</p>
-<p>${escapeHTML(p.descricao)}</p>
+<h3>${escapar(p.nome)}</h3>
+<p>${escapar(p.categoria)}</p>
+<p>${escapar(p.descricao)}</p>
 <div class="gallery"></div>
 <p class="price">R$ ${p.preco.toFixed(2).replace(".",",")}</p>
 <a href="https://www.instagram.com/gert.rudes62/"
@@ -135,12 +167,6 @@ galeria.appendChild(img);
 
 area.appendChild(card);
 });
-}
-
-function escapeHTML(text){
-return String(text).replace(/[&<>"']/g,
-c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
-'"':"&quot;","'":"&#39;"}[c]));
 }
 
 function login(){
@@ -163,7 +189,7 @@ const preco=Number(document.getElementById("price").value);
 const arquivos=document.getElementById("photos").files;
 
 if(!nome||!Number.isFinite(preco)||preco<=0||preco>20){
-alert("Coloque o nome e um preço entre R$0,01 e R$20.");
+alert("Coloque o nome e preço entre R$0,01 e R$20.");
 return;
 }
 
@@ -181,8 +207,7 @@ alert("Escolha somente imagens.");
 return;
 }
 
-const foto=await redimensionar(arquivo);
-fotos.push(foto);
+fotos.push(await redimensionar(arquivo));
 }
 
 produtos.push({nome,categoria,descricao,preco,fotos});
@@ -223,6 +248,7 @@ resolve(canvas.toDataURL("image/jpeg",0.7));
 img.onerror=reject;
 img.src=e.target.result;
 };
+
 reader.onerror=reject;
 reader.readAsDataURL(file);
 });
