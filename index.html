@@ -1,20 +1,29 @@
+
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Blocks GG</title>
+<title>BLOCKS GG</title>
 <style>
-body{background:#111;color:white;font-family:Arial;text-align:center}
+body{background:#111;color:white;font-family:Arial;text-align:center;margin:0}
 header{background:#d7192d;padding:20px}
-button{background:#e21d32;color:white;border:0;padding:12px;margin:5px;border-radius:8px}
-input,select{padding:10px;margin:5px}
+button{background:#e21d32;color:white;border:0;padding:12px;margin:5px;border-radius:8px;cursor:pointer}
+input,select{padding:10px;margin:5px;max-width:90%}
 .card{background:#292929;padding:15px;margin:10px;border-radius:10px}
 #admin{display:none}
+a{color:#ff6677}
 </style>
 </head>
 <body>
-<header><h1>BLOCKS GG</h1></header>
+
+<header>
+<h1>BLOCKS GG</h1>
+<a href="https://www.instagram.com/gert.rudes62/" target="_blank">
+Instagram @gert.rudes62
+</a>
+</header>
 
 <h2>Minha loja</h2>
 <div id="products"></div>
@@ -25,43 +34,105 @@ input,select{padding:10px;margin:5px}
 <div id="admin">
 <h3>Adicionar produto</h3>
 <input id="name" placeholder="Nome do produto">
+
 <select id="category">
 <option>Blox Fruits</option>
 <option>Roube um Ovo</option>
+<option>Free Fire</option>
+<option>Roblox</option>
 </select>
+
 <input id="price" type="number" placeholder="Preço até 20 reais">
+<input id="link" type="url" placeholder="Link individual da conta">
+
 <button onclick="add()">Adicionar produto</button>
 </div>
 
 <script>
 const senha="blocksGG-demo";
-let produtos=[
-{nome:"Produto exemplo",categoria:"Blox Fruits",preco:20}
-];
+
+let produtos=JSON.parse(localStorage.getItem("blocksProdutos")||"[]");
+
+function salvar(){
+localStorage.setItem("blocksProdutos",JSON.stringify(produtos));
+}
 
 function mostrar(){
-document.getElementById("products").innerHTML="";
+const area=document.getElementById("products");
+area.innerHTML="";
+
 produtos.forEach(p=>{
-document.getElementById("products").innerHTML+=
-"<div class='card'><h3>"+p.nome+"</h3><p>"+p.categoria+"</p><b>R$ "+p.preco+"</b></div>";
+const card=document.createElement("div");
+card.className="card";
+
+const nome=document.createElement("h3");
+nome.textContent=p.nome;
+
+const categoria=document.createElement("p");
+categoria.textContent=p.categoria;
+
+const preco=document.createElement("b");
+preco.textContent="R$ "+p.preco.toFixed(2).replace(".",",");
+
+const comprar=document.createElement("p");
+const botao=document.createElement("a");
+botao.href="https://www.instagram.com/gert.rudes62/";
+botao.target="_blank";
+botao.textContent="COMPRAR NO INSTAGRAM";
+comprar.appendChild(botao);
+
+card.append(nome,categoria,preco,comprar);
+
+if(p.link){
+const link=document.createElement("p");
+const abrir=document.createElement("a");
+abrir.href=p.link;
+abrir.target="_blank";
+abrir.rel="noopener noreferrer";
+abrir.textContent="Ver link da conta";
+link.appendChild(abrir);
+card.appendChild(link);
+}
+
+area.appendChild(card);
 });
 }
 
 function login(){
 if(prompt("Senha do dono:")===senha){
 document.getElementById("admin").style.display="block";
-}else alert("Senha incorreta");
+}else{
+alert("Senha incorreta");
+}
 }
 
 function add(){
-let nome=document.getElementById("name").value;
-let categoria=document.getElementById("category").value;
-let preco=Number(document.getElementById("price").value);
-if(!nome||preco<0||preco>20){alert("Preço máximo R$ 20");return}
-produtos.push({nome,categoria,preco});
-mostrar();
-alert("Produto adicionado neste navegador");
+const nome=document.getElementById("name").value.trim();
+const categoria=document.getElementById("category").value;
+const preco=Number(document.getElementById("price").value);
+const link=document.getElementById("link").value.trim();
+
+if(!nome||!Number.isFinite(preco)||preco<=0||preco>20){
+alert("Digite um nome e um preço entre R$ 0,01 e R$ 20.");
+return;
 }
+
+if(link && !/^https?:\/\//i.test(link)){
+alert("Digite um link começando com https://");
+return;
+}
+
+produtos.push({nome,categoria,preco,link});
+salvar();
+mostrar();
+
+document.getElementById("name").value="";
+document.getElementById("price").value="";
+document.getElementById("link").value="";
+
+alert("Produto adicionado!");
+}
+
 mostrar();
 </script>
 </body>
