@@ -1,127 +1,111 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!DOCTYPE html><html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BLOQUE JJ</title>
-
-<style>
+<title>BLOQUE JJ</title><style>
 *{box-sizing:border-box}
 body{
-background:#101010;
-color:white;
-font-family:Arial,sans-serif;
-margin:0;
-text-align:center
+  background:#09090f;
+  color:white;
+  font-family:Arial,sans-serif;
+  margin:0;
+  text-align:center;
 }
 header{
-background:linear-gradient(135deg,#e21d32,#65000c);
-padding:25px
+  background:linear-gradient(135deg,#ff1744,#700020,#150015);
+  padding:35px 15px;
 }
-h1{font-size:35px}
-a{color:#ff6677}
+h1{font-size:38px;margin:10px}
+header p{color:#ffdbe3}
+a{color:#ff718e}
 button{
-background:#e21d32;
-color:white;
-border:0;
-padding:12px 18px;
-margin:5px;
-border-radius:8px;
-cursor:pointer
+  background:linear-gradient(135deg,#ff1744,#a00025);
+  color:white;
+  border:0;
+  padding:13px 20px;
+  margin:6px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:bold;
 }
 input,select,textarea{
-padding:12px;
-margin:6px;
-width:90%;
-max-width:400px;
-border-radius:8px;
-border:0
+  padding:13px;
+  margin:7px;
+  width:90%;
+  max-width:400px;
+  border-radius:10px;
+  border:1px solid #444;
+  background:#171720;
+  color:white;
 }
 .card{
-background:#292929;
-padding:15px;
-margin:12px;
-border-radius:12px;
-border:1px solid #444
+  background:linear-gradient(145deg,#1c1c27,#101015);
+  padding:20px;
+  margin:15px auto;
+  border-radius:15px;
+  border:1px solid #383845;
+  max-width:500px;
 }
 #admin{
-display:none;
-background:#222;
-padding:20px
+  display:none;
+  background:#171720;
+  padding:20px;
+  margin:15px;
+  border:1px solid #ff1744;
+  border-radius:15px;
 }
 .gallery{
-display:flex;
-gap:8px;
-flex-wrap:wrap;
-justify-content:center
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  justify-content:center;
 }
 .gallery img{
-width:30%;
-max-width:180px;
-border-radius:8px;
-object-fit:cover
+  width:30%;
+  max-width:180px;
+  border-radius:8px;
+  object-fit:cover;
 }
 .price{
-color:#ff334b;
-font-size:24px
+  color:#ff4269;
+  font-size:26px;
+  font-weight:bold;
 }
 footer{
-background:#080808;
-padding:25px;
-margin-top:30px
+  background:#050508;
+  padding:25px;
+  margin-top:30px;
 }
-</style>
-</head>
-
-<body>
-
-<header>
-<h1>BLOQUE JJ</h1>
+</style></head><body><header>
+<h1>🔥 BLOQUE JJ 🔥</h1>
 <p>O melhor lugar para encontrar suas contas!</p>
 <a href="https://www.instagram.com/gert.rudes62/"
 target="_blank">@gert.rudes62</a>
-</header>
-
-<h2>Minha loja</h2>
-<div id="products"></div>
-
-<button onclick="login()">👑 Área do Dono</button>
+</header><h2>🎮 Nossa Loja</h2>
+<div id="products"></div><button onclick="login()">👑 Área do Dono</button>
 
 <div id="admin">
-<h2>Painel do Dono</h2>
-
-<input id="name" placeholder="Nome da conta">
-
-<select id="category">
+<h2>👑 Painel do Dono</h2><input id="name" placeholder="Nome da conta"><select id="category">
 <option>Blox Fruits</option>
 <option>Roube um Ovo</option>
 <option>Free Fire</option>
 <option>Roblox</option>
-</select>
-
-<textarea id="description"
-placeholder="Descrição da conta"></textarea>
-
-<input id="price" type="number"
+</select><textarea id="description"
+placeholder="Descrição da conta"></textarea><input id="price" type="number"
 placeholder="Preço em reais (máximo R$20)">
 
 <p>Adicionar até 3 prints:</p>
 <input type="file" id="photos"
-accept="image/*" multiple>
-
-<button onclick="add()">Adicionar conta</button>
+accept="image/*" multiple><button onclick="add()">Adicionar conta</button>
 <button onclick="logout()">Sair</button>
-</div>
 
-<footer>
-<h2>BLOQUE JJ</h2>
+</div><footer>
+<h2>🔥 BLOQUE JJ 🔥</h2>
 <p>Obrigado por visitar nossa loja!</p>
 <a href="https://www.instagram.com/gert.rudes62/"
 target="_blank">Instagram @gert.rudes62</a>
-</footer>
-
-<script>
-const senha="blocksGG-demo";
+</footer><script>
+const senha="Vini12";
 
 let produtos=JSON.parse(
 localStorage.getItem("bloqueJJ")||"[]"
@@ -255,7 +239,5 @@ reader.readAsDataURL(file);
 }
 
 mostrar();
-</script>
-
-</body>
+</script></body>
 </html>
