@@ -12,7 +12,6 @@ header{padding:30px 15px;background:linear-gradient(135deg,#f21c40,#65000c)}
 header h1{font-size:38px;margin:5px}
 a{color:#ff7188}
 button{background:#ed1739;color:white;border:0;padding:12px 18px;margin:5px;border-radius:9px;font-weight:bold;cursor:pointer}
-button:hover{background:#a90c27}
 input,select,textarea{padding:12px;margin:6px;width:90%;max-width:400px;border-radius:8px;border:0;background:#222;color:white}
 .card{background:#19191f;padding:17px;margin:13px auto;border-radius:14px;border:1px solid #444;max-width:480px}
 .price{font-size:25px;color:#ff526e;font-weight:bold}
@@ -22,6 +21,7 @@ input,select,textarea{padding:12px;margin:6px;width:90%;max-width:400px;border-r
 .delivery{background:#19191f;margin:15px;padding:15px;border-radius:12px}
 footer{background:#08080b;padding:25px;margin-top:35px}
 .remove{background:#555}
+hr{border:1px solid #444;margin:20px 0}
 </style>
 </head>
 <body>
@@ -59,7 +59,7 @@ footer{background:#08080b;padding:25px;margin-top:35px}
 
 <div id="admin">
 <h2>👑 PAINEL DO DONO</h2>
-<h3>Adicionar conta</h3>
+<h3>➕ Adicionar anúncio</h3>
 <input id="name" placeholder="Nome da conta">
 <select id="category">
 <option>Free Fire</option>
@@ -67,194 +67,6 @@ footer{background:#08080b;padding:25px;margin-top:35px}
 </select>
 <textarea id="description" placeholder="Descrição da conta"></textarea>
 <input id="price" type="number" step="0.01" placeholder="Preço (máximo R$20)">
-<p>Adicionar até 3 prints:</p>
+<p>📸 Adicionar até 3 prints:</p>
 <input type="file" id="photos" accept="image/*" multiple>
-<button onclick="add()">➕ Adicionar conta</button>
-
-<hr>
-<h3>🎟️ Criar cupom</h3>
-<input id="couponName" placeholder="Nome do cupom">
-<input id="couponValue" type="number" placeholder="Desconto de 1 a 100%">
-<button onclick="criarCupom()">Criar cupom</button>
-<div id="couponList"></div>
-
-<hr>
-<h3>📦 Gerenciar contas</h3>
-<div id="adminProducts"></div>
-<button class="remove" onclick="logout()">Sair do painel</button>
-</div>
-
-<footer>
-<h2>BLOQUE JJ</h2>
-<p>Obrigado por visitar nossa loja!</p>
-<a href="https://www.instagram.com/gert.rudes62/" target="_blank">Instagram @gert.rudes62</a>
-</footer>
-
-<script>
-const senha="jj2026";
-const carregar=(chave,padrao)=>JSON.parse(localStorage.getItem(chave)||JSON.stringify(padrao));
-let produtos=carregar("bloqueJJ",[]);
-let cupons=carregar("jjCupons",{});
-let carrinho=[];
-let descontoAtual=0;
-
-function salvar(){
-localStorage.setItem("bloqueJJ",JSON.stringify(produtos));
-localStorage.setItem("jjCupons",JSON.stringify(cupons));
-}
-function dinheiro(n){return "R$ "+n.toFixed(2).replace(".",",")}
-function escapar(t){return String(t).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-
-function mostrar(){
-const area=document.getElementById("products");
-area.innerHTML="";
-produtos.forEach((p,i)=>{
-const card=document.createElement("div");
-card.className="card";
-card.innerHTML=`
-<h3>${escapar(p.nome)}</h3>
-<p>${escapar(p.categoria)}</p>
-<p>${escapar(p.descricao)}</p>
-<div class="gallery"></div>
-<p class="price">${dinheiro(p.preco)}</p>
-<button onclick="adicionar(${i})">🛒 Adicionar ao carrinho</button>`;
-(p.fotos||[]).forEach(f=>{
-const img=document.createElement("img");
-img.src=f;card.querySelector(".gallery").appendChild(img);
-});
-area.appendChild(card);
-});
-mostrarAdmin();
-}
-
-function login(){
-if(prompt("Senha do dono:")===senha){
-document.getElementById("admin").style.display="block";
-mostrarAdmin();
-}else alert("Senha incorreta");
-}
-function logout(){document.getElementById("admin").style.display="none"}
-
-async function add(){
-const nome=document.getElementById("name").value.trim();
-const categoria=document.getElementById("category").value;
-const descricao=document.getElementById("description").value.trim();
-const preco=Number(document.getElementById("price").value);
-const arquivos=document.getElementById("photos").files;
-if(!nome||!Number.isFinite(preco)||preco<=0||preco>20){
-alert("Coloque o nome e preço entre R$0,01 e R$20.");return;
-}
-if(arquivos.length>3){alert("Escolha no máximo 3 prints.");return}
-try{
-const fotos=[];
-for(const arquivo of arquivos){
-if(!arquivo.type.startsWith("image/")){alert("Escolha somente imagens.");return}
-fotos.push(await redimensionar(arquivo));
-}
-produtos.push({nome,categoria,descricao,preco,fotos});
-salvar();mostrar();
-["name","description","price","photos"].forEach(id=>document.getElementById(id).value="");
-alert("Conta adicionada!");
-}catch(e){alert("Não foi possível salvar. Tente prints menores.")}
-}
-
-function redimensionar(file){
-return new Promise((resolve,reject)=>{
-const img=new Image(),reader=new FileReader();
-reader.onload=e=>{
-img.onload=()=>{
-const canvas=document.createElement("canvas");
-const escala=Math.min(1,600/img.width,600/img.height);
-canvas.width=img.width*escala;canvas.height=img.height*escala;
-canvas.getContext("2d").drawImage(img,0,0,canvas.width,canvas.height);
-resolve(canvas.toDataURL("image/jpeg",0.7));
-};
-img.onerror=reject;img.src=e.target.result;
-};
-reader.onerror=reject;reader.readAsDataURL(file);
-});
-}
-
-function mostrarAdmin(){
-const area=document.getElementById("adminProducts");
-if(!area)return;
-area.innerHTML="";
-produtos.forEach((p,i)=>{
-const div=document.createElement("div");
-div.className="card";
-div.innerHTML=`<p>${escapar(p.nome)} - ${dinheiro(p.preco)}</p><button onclick="excluir(${i})">Excluir conta</button>`;
-area.appendChild(div);
-});
-const lista=document.getElementById("couponList");
-if(lista){
-lista.innerHTML="";
-Object.entries(cupons).forEach(([nome,valor])=>{
-const p=document.createElement("p");
-p.textContent=nome+" - "+valor+"%";
-lista.appendChild(p);
-});
-}
-}
-function excluir(i){
-if(confirm("Excluir esta conta?")){produtos.splice(i,1);salvar();mostrar()}
-}
-
-function criarCupom(){
-const nome=document.getElementById("couponName").value.trim().toUpperCase();
-const valor=Number(document.getElementById("couponValue").value);
-if(!nome||!Number.isInteger(valor)||valor<1||valor>100){
-alert("Informe um cupom e desconto entre 1% e 100%.");return;
-}
-cupons[nome]=valor;salvar();mostrarAdmin();
-document.getElementById("couponName").value="";
-document.getElementById("couponValue").value="";
-alert("Cupom criado!");
-}
-
-function adicionar(i){
-carrinho.push(i);atualizarCarrinho();alert("Adicionado ao carrinho!");
-}
-function abrirCarrinho(){
-document.getElementById("cart").style.display="block";atualizarCarrinho();
-}
-function fecharCarrinho(){document.getElementById("cart").style.display="none"}
-function atualizarCarrinho(){
-document.getElementById("quantidade").textContent=carrinho.length;
-const area=document.getElementById("cartItems");area.innerHTML="";
-let subtotal=0;
-carrinho.forEach((i,pos)=>{
-const p=produtos[i];if(!p)return;
-subtotal+=p.preco;
-const div=document.createElement("p");
-div.textContent=p.nome+" - "+dinheiro(p.preco);
-const b=document.createElement("button");b.textContent="Remover";
-b.onclick=()=>{carrinho.splice(pos,1);atualizarCarrinho()};
-div.appendChild(b);area.appendChild(div);
-});
-const desconto=subtotal*descontoAtual/100;
-document.getElementById("subtotal").textContent=dinheiro(subtotal);
-document.getElementById("desconto").textContent=dinheiro(desconto);
-document.getElementById("total").textContent=dinheiro(subtotal-desconto);
-}
-function aplicarCupom(){
-const nome=document.getElementById("couponInput").value.trim().toUpperCase();
-if(cupons[nome]!==undefined){
-descontoAtual=cupons[nome];
-document.getElementById("couponMessage").textContent="Cupom aplicado!";
-}else{
-descontoAtual=0;
-document.getElementById("couponMessage").textContent="Cupom inválido.";
-}
-atualizarCarrinho();
-}
-function finalizarCompra(){
-if(!carrinho.length){alert("Seu carrinho está vazio.");return}
-let linhas=carrinho.map(i=>produtos[i]?.nome).filter(Boolean);
-let total=document.getElementById("total").textContent;
-let mensagem="Olá! Quero comprar:\n"+linhas.join("\n")+"\nTotal: "+total;
-window.open("https://wa.me/?text="+encodeURIComponent(mensagem),"_blank");
-}
-mostrar();
-</script>
-</body>
-</html>
+<button onclick="add()">➕ PUBLICAR ANÚNCIO</button>
