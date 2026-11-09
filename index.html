@@ -5,22 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Blocks GG</title>
 <style>
-body{background:#111;color:white;font-family:Arial;margin:0}
-header{background:#d7192d;text-align:center;padding:25px}
-main{padding:20px;max-width:800px;margin:auto}
-button{background:#e21d32;color:white;border:0;padding:12px;border-radius:8px;margin:5px}
-input,select{padding:12px;margin:6px;width:90%}
+body{background:#111;color:white;font-family:Arial;text-align:center}
+header{background:#d7192d;padding:20px}
+button{background:#e21d32;color:white;border:0;padding:12px;margin:5px;border-radius:8px}
+input,select{padding:10px;margin:5px}
 .card{background:#292929;padding:15px;margin:10px;border-radius:10px}
-#admin{display:none;background:#292929;padding:15px}
+#admin{display:none}
 </style>
 </head>
 <body>
-<header><h1>BLOCKS GG</h1><p>Minha loja gamer</p></header>
-<main>
-<h2>Produtos</h2>
-<button onclick="filter('Todos')">Todos</button>
-<button onclick="filter('Blox Fruits')">Blox Fruits</button>
-<button onclick="filter('Roube um Ovo')">Roube um Ovo</button>
+<header><h1>BLOCKS GG</h1></header>
+
+<h2>Minha loja</h2>
 <div id="products"></div>
 
 <h2>Área do Dono</h2>
@@ -33,52 +29,40 @@ input,select{padding:12px;margin:6px;width:90%}
 <option>Blox Fruits</option>
 <option>Roube um Ovo</option>
 </select>
-<input id="price" type="number" placeholder="Preço até R$ 20">
-<button onclick="add()">Adicionar</button>
-<button onclick="logout()">Sair</button>
+<input id="price" type="number" placeholder="Preço até 20 reais">
+<button onclick="add()">Adicionar produto</button>
 </div>
 
-<p>Instagram: @gert.rudes62</p>
-<p>Catálogo de demonstração. Verifique as regras do Roblox.</p>
-</main>
-
 <script>
-const password="blocksGG-demo";
-let products=[
-{name:"Produto exemplo 1",category:"Blox Fruits",price:20},
-{name:"Produto exemplo 2",category:"Roube um Ovo",price:10}
+const senha="blocksGG-demo";
+let produtos=[
+{nome:"Produto exemplo",categoria:"Blox Fruits",preco:20}
 ];
-let selected="Todos";
 
-function render(){
+function mostrar(){
 document.getElementById("products").innerHTML="";
-products.filter(p=>selected==="Todos"||p.category===selected)
-.forEach(p=>{
-let div=document.createElement("div");
-div.className="card";
-div.innerHTML="<h3></h3><p></p>";
-div.querySelector("h3").textContent=p.name;
-div.querySelector("p").textContent=p.category+" — R$ "+p.price;
-document.getElementById("products").appendChild(div);
+produtos.forEach(p=>{
+document.getElementById("products").innerHTML+=
+"<div class='card'><h3>"+p.nome+"</h3><p>"+p.categoria+"</p><b>R$ "+p.preco+"</b></div>";
 });
 }
-function filter(c){selected=c;render()}
+
 function login(){
-if(prompt("Digite a senha:")===password){
+if(prompt("Senha do dono:")===senha){
 document.getElementById("admin").style.display="block";
 }else alert("Senha incorreta");
 }
+
 function add(){
-let name=document.getElementById("name").value;
-let category=document.getElementById("category").value;
-let price=Number(document.getElementById("price").value);
-if(!name||price<0||price>20){alert("Coloque nome e preço até R$ 20");return}
-products.push({name,category,price});
-render();
-alert("Produto adicionado neste navegador!");
+let nome=document.getElementById("name").value;
+let categoria=document.getElementById("category").value;
+let preco=Number(document.getElementById("price").value);
+if(!nome||preco<0||preco>20){alert("Preço máximo R$ 20");return}
+produtos.push({nome,categoria,preco});
+mostrar();
+alert("Produto adicionado neste navegador");
 }
-function logout(){document.getElementById("admin").style.display="none"}
-render();
+mostrar();
 </script>
 </body>
 </html>
