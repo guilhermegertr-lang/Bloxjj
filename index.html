@@ -4,69 +4,242 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BLOQUE JJ</title>
+<title>BLOKO JJ</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#0b0b0f;color:white;font-family:Arial;text-align:center}
-header{padding:30px 15px;background:linear-gradient(135deg,#f21c40,#65000c)}
-header h1{font-size:38px;margin:5px}
-a{color:#ff7188}
-button{background:#ed1739;color:white;border:0;padding:12px 18px;margin:5px;border-radius:9px;font-weight:bold;cursor:pointer}
-input,select,textarea{padding:12px;margin:6px;width:90%;max-width:400px;border-radius:8px;border:0;background:#222;color:white}
-.card{background:#19191f;padding:17px;margin:13px auto;border-radius:14px;border:1px solid #444;max-width:480px}
-.price{font-size:25px;color:#ff526e;font-weight:bold}
-.gallery{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
-.gallery img{width:30%;max-width:180px;border-radius:9px}
-#admin,#cart{display:none;background:#19191f;padding:18px;margin:15px auto;max-width:600px;border:1px solid #444;border-radius:14px}
-.delivery{background:#19191f;margin:15px;padding:15px;border-radius:12px}
-footer{background:#08080b;padding:25px;margin-top:35px}
-.remove{background:#555}
-hr{border:1px solid #444;margin:20px 0}
+body{
+ margin:0;
+ background:#101018;
+ color:white;
+ font-family:Arial,sans-serif;
+ text-align:center;
+}
+header{
+ background:linear-gradient(135deg,#d71936,#760019);
+ padding:28px 15px;
+}
+header h1{font-size:34px;margin:0}
+header p{margin-bottom:0}
+button{
+ border:0;
+ border-radius:9px;
+ padding:13px 18px;
+ background:#e51b3e;
+ color:white;
+ font-weight:bold;
+ cursor:pointer;
+ margin:6px;
+}
+button:active{transform:scale(.97)}
+.container{padding:18px}
+.card{
+ background:#20202c;
+ border:1px solid #383849;
+ border-radius:14px;
+ padding:16px;
+ margin:14px auto;
+ max-width:420px;
+}
+.card h3{color:#ff4964}
+input,textarea{
+ width:100%;
+ padding:12px;
+ border-radius:8px;
+ border:1px solid #555;
+ margin:7px 0;
+ background:#171721;
+ color:white;
+}
+img{
+ max-width:100%;
+ border-radius:10px;
+}
+#admin{display:none}
+#products{
+ display:grid;
+ grid-template-columns:1fr;
+ gap:12px;
+}
+footer{padding:25px;color:#aaa}
 </style>
 </head>
+
 <body>
 
 <header>
-<h1>🔥 BLOQUE JJ 🔥</h1>
+<h1>🔥 BLOKO JJ 🔥</h1>
 <p>As melhores contas estão aqui!</p>
-<a href="https://www.instagram.com/gert.rudes62/" target="_blank">@gert.rudes62</a>
 </header>
 
-<h2>🛍️ Nossa loja</h2>
-<div class="delivery">
-<h3>🚚 Horários de entrega</h3>
-<p>Segunda a sexta: 07:00 às 11:00</p>
-<p>Sábado e domingo: 12:00 às 22:00</p>
+<div class="container">
+
+<h2>🛒 Nossa Loja</h2>
+
+<div id="products">
+<div class="card">
+<h3>Conta de Roblox</h3>
+<p>Consulte os produtos disponíveis.</p>
+<button onclick="addCart('Conta de Roblox')">
+Adicionar ao carrinho
+</button>
+</div>
 </div>
 
-<button onclick="abrirCarrinho()">🛒 Carrinho (<span id="quantidade">0</span>)</button>
-<div id="products"></div>
-
-<div id="cart">
-<h2>🛒 Meu carrinho</h2>
-<div id="cartItems"></div>
-<input id="couponInput" placeholder="Digite seu cupom">
-<button onclick="aplicarCupom()">Aplicar cupom</button>
-<p id="couponMessage"></p>
-<p>Subtotal: <span id="subtotal">R$ 0,00</span></p>
-<p>Desconto: <span id="desconto">R$ 0,00</span></p>
-<h2>Total: <span id="total">R$ 0,00</span></h2>
-<button onclick="finalizarCompra()">FINALIZAR PEDIDO</button>
-<button class="remove" onclick="fecharCarrinho()">Fechar</button>
+<h2>🛒 Meu Carrinho</h2>
+<div class="card">
+<div id="cart">Carrinho vazio</div>
+<button onclick="finishOrder()">Finalizar pedido</button>
 </div>
 
-<button onclick="login()">👑 Área do Dono</button>
+<hr>
 
-<div id="admin">
+<button onclick="login()">👑 ÁREA DO DONO</button>
+
+<section id="admin">
+<div class="card">
 <h2>👑 PAINEL DO DONO</h2>
-<h3>➕ Adicionar anúncio</h3>
-<input id="name" placeholder="Nome da conta">
-<select id="category">
-<option>Free Fire</option>
-<option>Roblox</option>
-</select>
-<textarea id="description" placeholder="Descrição da conta"></textarea>
-<input id="price" type="number" step="0.01" placeholder="Preço (máximo R$20)">
-<p>📸 Adicionar até 3 prints:</p>
-<input type="file" id="photos" accept="image/*" multiple>
-<button onclick="add()">➕ PUBLICAR ANÚNCIO</button>
+<h3>Adicionar produto</h3>
+
+<input id="name" placeholder="Nome do produto">
+<input id="price" placeholder="Preço">
+<input id="photo" placeholder="Link da imagem">
+<textarea id="description" placeholder="Descrição"></textarea>
+
+<button onclick="addProduct()">Adicionar produto</button>
+
+<h3>Produtos cadastrados</h3>
+<div id="adminProducts"></div>
+
+<button onclick="logout()">Sair do painel</button>
+</div>
+</section>
+
+</div>
+
+<footer>
+BLOKO JJ © 2026
+</footer>
+
+<script>
+let cart = [];
+
+function login(){
+ const senha = prompt("Digite a senha do dono:");
+
+ if(senha === "jj2026"){
+  document.getElementById("admin").style.display="block";
+  document.getElementById("admin").scrollIntoView();
+  showAdminProducts();
+  alert("Bem-vindo ao painel do dono!");
+ }else if(senha !== null){
+  alert("Senha incorreta!");
+ }
+}
+
+function logout(){
+ document.getElementById("admin").style.display="none";
+}
+
+function addCart(product){
+ cart.push(product);
+ updateCart();
+ alert("Produto adicionado!");
+}
+
+function updateCart(){
+ document.getElementById("cart").innerHTML =
+ cart.length ? cart.map(p=>"<p>"+p+"</p>").join("") : "Carrinho vazio";
+}
+
+function finishOrder(){
+ if(!cart.length){
+  alert("Seu carrinho está vazio!");
+  return;
+ }
+ alert("Pedido: "+cart.join(", "));
+}
+
+function addProduct(){
+ const name=document.getElementById("name").value.trim();
+ const price=document.getElementById("price").value.trim();
+ const photo=document.getElementById("photo").value.trim();
+ const description=document.getElementById("description").value.trim();
+
+ if(!name || !price){
+  alert("Preencha nome e preço!");
+  return;
+ }
+
+ const products=JSON.parse(localStorage.getItem("blokoProducts")||"[]");
+
+ products.push({name,price,photo,description});
+
+ localStorage.setItem("blokoProducts",JSON.stringify(products));
+
+ document.getElementById("name").value="";
+ document.getElementById("price").value="";
+ document.getElementById("photo").value="";
+ document.getElementById("description").value="";
+
+ showProducts();
+ showAdminProducts();
+ alert("Produto adicionado!");
+}
+
+function showProducts(){
+ const products=JSON.parse(localStorage.getItem("blokoProducts")||"[]");
+ const area=document.getElementById("products");
+
+ area.innerHTML=`
+ <div class="card">
+ <h3>Conta de Roblox</h3>
+ <p>Consulte os produtos disponíveis.</p>
+ <button onclick="addCart('Conta de Roblox')">Adicionar ao carrinho</button>
+ </div>`;
+
+ products.forEach((p,i)=>{
+  area.innerHTML+=`
+  <div class="card">
+  ${p.photo?'<img src="'+p.photo+'">':''}
+  <h3>${escapeHTML(p.name)}</h3>
+  <p>${escapeHTML(p.description)}</p>
+  <p>R$ ${escapeHTML(p.price)}</p>
+  <button onclick="addCart('${escapeJS(p.name)}')">Comprar</button>
+  </div>`;
+ });
+}
+
+function showAdminProducts(){
+ const products=JSON.parse(localStorage.getItem("blokoProducts")||"[]");
+ document.getElementById("adminProducts").innerHTML=
+ products.map((p,i)=>`
+ <div class="card">
+ <p>${escapeHTML(p.name)} - R$ ${escapeHTML(p.price)}</p>
+ <button onclick="deleteProduct(${i})">Excluir</button>
+ </div>`).join("") || "Nenhum produto cadastrado.";
+}
+
+function deleteProduct(i){
+ const products=JSON.parse(localStorage.getItem("blokoProducts")||"[]");
+ products.splice(i,1);
+ localStorage.setItem("blokoProducts",JSON.stringify(products));
+ showProducts();
+ showAdminProducts();
+}
+
+function escapeHTML(s){
+ return String(s).replace(/[&<>"']/g,c=>({
+ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+ }[c]));
+}
+
+function escapeJS(s){
+ return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'&quot;');
+}
+
+showProducts();
+</script>
+
+</body>
+</html>
