@@ -5,35 +5,67 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BLOCKS GG</title>
+<title>Bloque JJ</title>
+
 <style>
-body{background:#111;color:white;font-family:Arial;text-align:center;margin:0}
-header{background:#d7192d;padding:20px}
-button{background:#e21d32;color:white;border:0;padding:12px;margin:5px;border-radius:8px;cursor:pointer}
-input,select{padding:10px;margin:5px;max-width:90%}
-.card{background:#292929;padding:15px;margin:10px;border-radius:10px}
-#admin{display:none}
+*{box-sizing:border-box}
+body{
+  background:#111;color:white;font-family:Arial;
+  margin:0;text-align:center
+}
+header{
+  background:linear-gradient(135deg,#d7192d,#65000c);
+  padding:25px
+}
+h1{font-size:35px}
 a{color:#ff6677}
+button{
+  background:#e21d32;color:white;border:0;
+  padding:12px 18px;margin:5px;border-radius:8px;
+  cursor:pointer
+}
+input,select,textarea{
+  padding:12px;margin:6px;width:90%;
+  max-width:400px;border-radius:8px;border:0
+}
+.card{
+  background:#292929;padding:15px;margin:12px;
+  border-radius:12px;border:1px solid #444
+}
+#admin{display:none;background:#222;padding:20px}
+.gallery{
+  display:flex;gap:8px;flex-wrap:wrap;
+  justify-content:center
+}
+.gallery img{
+  width:30%;max-width:180px;
+  border-radius:8px;object-fit:cover
+}
+.price{color:#ff334b;font-size:24px}
+footer{
+  background:#080808;padding:25px;margin-top:30px
+}
 </style>
 </head>
+
 <body>
 
 <header>
-<h1>BLOCKS GG</h1>
-<a href="https://www.instagram.com/gert.rudes62/" target="_blank">
-Instagram @gert.rudes62
-</a>
+<h1>BLOQUE JJ</h1>
+<p>O melhor lugar para encontrar suas contas!</p>
+<a href="https://www.instagram.com/gert.rudes62/"
+target="_blank">@gert.rudes62</a>
 </header>
 
 <h2>Minha loja</h2>
 <div id="products"></div>
 
-<h2>Área do Dono</h2>
-<button onclick="login()">Entrar como dono</button>
+<button onclick="login()">👑 Área do Dono</button>
 
 <div id="admin">
-<h3>Adicionar produto</h3>
-<input id="name" placeholder="Nome do produto">
+<h2>Painel do Dono</h2>
+
+<input id="name" placeholder="Nome da conta">
 
 <select id="category">
 <option>Blox Fruits</option>
@@ -42,60 +74,73 @@ Instagram @gert.rudes62
 <option>Roblox</option>
 </select>
 
-<input id="price" type="number" placeholder="Preço até 20 reais">
-<input id="link" type="url" placeholder="Link individual da conta">
+<textarea id="description"
+placeholder="Descrição da conta"></textarea>
 
-<button onclick="add()">Adicionar produto</button>
+<input id="price" type="number"
+placeholder="Preço em reais (máximo R$20)">
+
+<p>Adicionar até 3 prints:</p>
+<input type="file" id="photos"
+accept="image/*" multiple>
+
+<button onclick="add()">Adicionar conta</button>
+<button onclick="logout()">Sair</button>
 </div>
+
+<footer>
+<h2>BLOQUE JJ</h2>
+<p>Obrigado por visitar nossa loja!</p>
+<a href="https://www.instagram.com/gert.rudes62/"
+target="_blank">Instagram @gert.rudes62</a>
+</footer>
 
 <script>
 const senha="blocksGG-demo";
-
-let produtos=JSON.parse(localStorage.getItem("blocksProdutos")||"[]");
+let produtos=JSON.parse(
+localStorage.getItem("bloqueJJ")||"[]"
+);
 
 function salvar(){
-localStorage.setItem("blocksProdutos",JSON.stringify(produtos));
+localStorage.setItem(
+"bloqueJJ",JSON.stringify(produtos)
+);
 }
 
 function mostrar(){
 const area=document.getElementById("products");
 area.innerHTML="";
 
-produtos.forEach(p=>{
+produtos.forEach((p,i)=>{
 const card=document.createElement("div");
 card.className="card";
 
-const nome=document.createElement("h3");
-nome.textContent=p.nome;
+card.innerHTML=`
+<h3>${escapeHTML(p.nome)}</h3>
+<p>${escapeHTML(p.categoria)}</p>
+<p>${escapeHTML(p.descricao)}</p>
+<div class="gallery"></div>
+<p class="price">R$ ${p.preco.toFixed(2).replace(".",",")}</p>
+<a href="https://www.instagram.com/gert.rudes62/"
+target="_blank">COMPRAR</a>
+`;
 
-const categoria=document.createElement("p");
-categoria.textContent=p.categoria;
+const galeria=card.querySelector(".gallery");
 
-const preco=document.createElement("b");
-preco.textContent="R$ "+p.preco.toFixed(2).replace(".",",");
-
-const comprar=document.createElement("p");
-const botao=document.createElement("a");
-botao.href="https://www.instagram.com/gert.rudes62/";
-botao.target="_blank";
-botao.textContent="COMPRAR NO INSTAGRAM";
-comprar.appendChild(botao);
-
-card.append(nome,categoria,preco,comprar);
-
-if(p.link){
-const link=document.createElement("p");
-const abrir=document.createElement("a");
-abrir.href=p.link;
-abrir.target="_blank";
-abrir.rel="noopener noreferrer";
-abrir.textContent="Ver link da conta";
-link.appendChild(abrir);
-card.appendChild(link);
-}
+(p.fotos||[]).forEach(f=>{
+const img=document.createElement("img");
+img.src=f;
+galeria.appendChild(img);
+});
 
 area.appendChild(card);
 });
+}
+
+function escapeHTML(text){
+return String(text).replace(/[&<>"']/g,
+c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
+'"':"&quot;","'":"&#39;"}[c]));
 }
 
 function login(){
@@ -106,34 +151,85 @@ alert("Senha incorreta");
 }
 }
 
-function add(){
+function logout(){
+document.getElementById("admin").style.display="none";
+}
+
+async function add(){
 const nome=document.getElementById("name").value.trim();
 const categoria=document.getElementById("category").value;
+const descricao=document.getElementById("description").value.trim();
 const preco=Number(document.getElementById("price").value);
-const link=document.getElementById("link").value.trim();
+const arquivos=document.getElementById("photos").files;
 
 if(!nome||!Number.isFinite(preco)||preco<=0||preco>20){
-alert("Digite um nome e um preço entre R$ 0,01 e R$ 20.");
+alert("Coloque o nome e um preço entre R$0,01 e R$20.");
 return;
 }
 
-if(link && !/^https?:\/\//i.test(link)){
-alert("Digite um link começando com https://");
+if(arquivos.length>3){
+alert("Escolha no máximo 3 prints.");
 return;
 }
 
-produtos.push({nome,categoria,preco,link});
+try{
+const fotos=[];
+
+for(const arquivo of arquivos){
+if(!arquivo.type.startsWith("image/")){
+alert("Escolha somente imagens.");
+return;
+}
+
+const foto=await redimensionar(arquivo);
+fotos.push(foto);
+}
+
+produtos.push({nome,categoria,descricao,preco,fotos});
 salvar();
 mostrar();
 
 document.getElementById("name").value="";
+document.getElementById("description").value="";
 document.getElementById("price").value="";
-document.getElementById("link").value="";
+document.getElementById("photos").value="";
 
-alert("Produto adicionado!");
+alert("Conta adicionada!");
+}catch(e){
+alert("Não foi possível salvar. Tente imagens menores.");
+}
+}
+
+function redimensionar(file){
+return new Promise((resolve,reject)=>{
+const img=new Image();
+const reader=new FileReader();
+
+reader.onload=e=>{
+img.onload=()=>{
+const canvas=document.createElement("canvas");
+const max=600;
+const escala=Math.min(1,max/img.width,max/img.height);
+
+canvas.width=img.width*escala;
+canvas.height=img.height*escala;
+
+canvas.getContext("2d").drawImage(
+img,0,0,canvas.width,canvas.height
+);
+
+resolve(canvas.toDataURL("image/jpeg",0.7));
+};
+img.onerror=reject;
+img.src=e.target.result;
+};
+reader.onerror=reject;
+reader.readAsDataURL(file);
+});
 }
 
 mostrar();
 </script>
+
 </body>
 </html>
