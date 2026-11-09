@@ -3,49 +3,82 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bloxjj - Loja Roblox</title>
+<title>Blocks GG</title>
 <style>
-body{background:#10111c;color:white;font-family:Arial;text-align:center;margin:0}
-header{background:#713cff;padding:25px}
-h1{font-size:40px}
-.card{background:#222438;margin:15px;padding:20px;border-radius:15px}
-button{background:#713cff;color:white;padding:12px;border:0;border-radius:8px}
-a{color:#00e5ff}
+body{background:#111;color:white;font-family:Arial;margin:0}
+header{background:#d7192d;text-align:center;padding:25px}
+main{padding:20px;max-width:800px;margin:auto}
+button{background:#e21d32;color:white;border:0;padding:12px;border-radius:8px;margin:5px}
+input,select{padding:12px;margin:6px;width:90%}
+.card{background:#292929;padding:15px;margin:10px;border-radius:10px}
+#admin{display:none;background:#292929;padding:15px}
 </style>
 </head>
 <body>
+<header><h1>BLOCKS GG</h1><p>Minha loja gamer</p></header>
+<main>
+<h2>Produtos</h2>
+<button onclick="filter('Todos')">Todos</button>
+<button onclick="filter('Blox Fruits')">Blox Fruits</button>
+<button onclick="filter('Roube um Ovo')">Roube um Ovo</button>
+<div id="products"></div>
 
-<header>
-<h1>🎮 BLOXJJ</h1>
-<p>Loja de contas Roblox</p>
-</header>
+<h2>Área do Dono</h2>
+<button onclick="login()">Entrar como dono</button>
 
-<h2>Contas disponíveis</h2>
-
-<div class="card">
-<h3>Conta Roblox Iniciante</h3>
-<p>Conta para iniciantes</p>
-<h2>R$ 20,00</h2>
+<div id="admin">
+<h3>Adicionar produto</h3>
+<input id="name" placeholder="Nome do produto">
+<select id="category">
+<option>Blox Fruits</option>
+<option>Roube um Ovo</option>
+</select>
+<input id="price" type="number" placeholder="Preço até R$ 20">
+<button onclick="add()">Adicionar</button>
+<button onclick="logout()">Sair</button>
 </div>
-
-<div class="card">
-<h3>Roube um Ovo</h3>
-<p>Conta iniciante</p>
-<h2>R$ 20,00</h2>
-</div>
-
-<div class="card">
-<h3>Blox Fruits</h3>
-<p>Conta iniciante</p>
-<h2>R$ 20,00</h2>
-</div>
-
-<h2>Contato</h2>
-<a href="https://instagram.com/gert.rudes62">
-<button>Comprar pelo Instagram</button>
-</a>
 
 <p>Instagram: @gert.rudes62</p>
+<p>Catálogo de demonstração. Verifique as regras do Roblox.</p>
+</main>
 
+<script>
+const password="blocksGG-demo";
+let products=[
+{name:"Produto exemplo 1",category:"Blox Fruits",price:20},
+{name:"Produto exemplo 2",category:"Roube um Ovo",price:10}
+];
+let selected="Todos";
+
+function render(){
+document.getElementById("products").innerHTML="";
+products.filter(p=>selected==="Todos"||p.category===selected)
+.forEach(p=>{
+let div=document.createElement("div");
+div.className="card";
+div.innerHTML="<h3></h3><p></p>";
+div.querySelector("h3").textContent=p.name;
+div.querySelector("p").textContent=p.category+" — R$ "+p.price;
+document.getElementById("products").appendChild(div);
+});
+}
+function filter(c){selected=c;render()}
+function login(){
+if(prompt("Digite a senha:")===password){
+document.getElementById("admin").style.display="block";
+}else alert("Senha incorreta");
+}
+function add(){
+let name=document.getElementById("name").value;
+let category=document.getElementById("category").value;
+let price=Number(document.getElementById("price").value);
+if(!name||price<0||price>20){alert("Coloque nome e preço até R$ 20");return}
+products.push({name,category,price});
+render();
+alert("Produto adicionado neste navegador!");
+}
+function logout(){document.getElementById("admin").style.display="none"}
+render();
+</script>
 </body>
 </html>
