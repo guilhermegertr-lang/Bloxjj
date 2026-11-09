@@ -1,243 +1,239 @@
-<!DOCTYPE html><html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BLOQUE JJ</title><style>
+<title>BLOQUE JJ | GAMING STORE</title>
+<style>
 *{box-sizing:border-box}
 body{
-  background:#09090f;
-  color:white;
-  font-family:Arial,sans-serif;
-  margin:0;
-  text-align:center;
+ margin:0;background:#080914;color:white;
+ font-family:Arial,sans-serif;
 }
 header{
-  background:linear-gradient(135deg,#ff1744,#700020,#150015);
-  padding:35px 15px;
+ padding:30px 15px;text-align:center;
+ background:linear-gradient(130deg,#15103c,#5b19a8,#e21d65);
 }
-h1{font-size:38px;margin:10px}
-header p{color:#ffdbe3}
-a{color:#ff718e}
+.logo{font-size:38px;font-weight:900;letter-spacing:3px}
+header p{color:#e5d9ff}
+nav{
+ display:flex;justify-content:center;flex-wrap:wrap;
+ gap:8px;padding:15px;background:#111120;
+ position:sticky;top:0;z-index:5;
+}
 button{
-  background:linear-gradient(135deg,#ff1744,#a00025);
-  color:white;
-  border:0;
-  padding:13px 20px;
-  margin:6px;
-  border-radius:10px;
-  cursor:pointer;
-  font-weight:bold;
+ background:linear-gradient(120deg,#a32aff,#ed236d);
+ color:white;border:0;border-radius:10px;
+ padding:12px 18px;font-weight:bold;cursor:pointer;
 }
-input,select,textarea{
-  padding:13px;
-  margin:7px;
-  width:90%;
-  max-width:400px;
-  border-radius:10px;
-  border:1px solid #444;
-  background:#171720;
-  color:white;
+.hero{
+ margin:20px;padding:35px 15px;text-align:center;
+ background:linear-gradient(135deg,#191438,#291052);
+ border:1px solid #843cff;border-radius:18px;
+}
+.hero h2{font-size:29px}
+.hero p{color:#c9bce9}
+h2.section{text-align:center;margin:30px 10px}
+.categories{
+ display:grid;grid-template-columns:repeat(2,1fr);
+ gap:12px;padding:12px;max-width:700px;margin:auto;
+}
+.category{
+ background:#171729;border:1px solid #57328b;
+ border-radius:13px;padding:22px 8px;text-align:center;
+ cursor:pointer;font-weight:bold;
+}
+.category:active{background:#442078}
+#products{
+ display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+ gap:15px;padding:15px;max-width:1100px;margin:auto;
 }
 .card{
-  background:linear-gradient(145deg,#1c1c27,#101015);
-  padding:20px;
-  margin:15px auto;
-  border-radius:15px;
-  border:1px solid #383845;
-  max-width:500px;
+ background:linear-gradient(145deg,#1a1a2e,#10101b);
+ border:1px solid #4a3274;border-radius:16px;
+ padding:15px;text-align:center;
 }
+.card h3{color:#e6b6ff}
+.gallery{display:flex;flex-wrap:wrap;gap:7px;justify-content:center}
+.gallery img{width:30%;border-radius:9px;object-fit:cover}
+.price{font-size:25px;color:#ff4b9c;font-weight:bold}
+.buy{display:block;background:#a22aff;color:white;
+ padding:12px;border-radius:9px;text-decoration:none;font-weight:bold}
 #admin{
-  display:none;
-  background:#171720;
-  padding:20px;
-  margin:15px;
-  border:1px solid #ff1744;
-  border-radius:15px;
+ display:none;background:#171729;
+ border:1px solid #a32aff;border-radius:15px;
+ padding:20px;margin:20px;text-align:center;
 }
-.gallery{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  justify-content:center;
+input,select,textarea{
+ display:block;width:100%;max-width:430px;
+ margin:10px auto;padding:13px;border-radius:9px;
+ background:#0d0d18;color:white;border:1px solid #63418a;
 }
-.gallery img{
-  width:30%;
-  max-width:180px;
-  border-radius:8px;
-  object-fit:cover;
-}
-.price{
-  color:#ff4269;
-  font-size:26px;
-  font-weight:bold;
-}
-footer{
-  background:#050508;
-  padding:25px;
-  margin-top:30px;
-}
-</style></head><body><header>
-<h1>🔥 BLOQUE JJ 🔥</h1>
-<p>O melhor lugar para encontrar suas contas!</p>
-<a href="https://www.instagram.com/gert.rudes62/"
-target="_blank">@gert.rudes62</a>
-</header><h2>🎮 Nossa Loja</h2>
-<div id="products"></div><button onclick="login()">👑 Área do Dono</button>
+footer{text-align:center;padding:30px;background:#10101c;margin-top:40px}
+footer a{color:#ed78c1}
+</style>
+</head>
+<body>
+
+<header>
+<div class="logo">🔥 BLOQUE JJ</div>
+<p>GAMING STORE • SUA LOJA DE CONTAS</p>
+</header>
+
+<nav>
+<button onclick="filtrar('Todas')">INÍCIO</button>
+<button onclick="filtrar('Roblox')">ROBLOX</button>
+<button onclick="filtrar('Blox Fruits')">BLOX FRUITS</button>
+<button onclick="filtrar('Roube um Ovo')">ROUBE UM OVO</button>
+<button onclick="filtrar('Free Fire')">FREE FIRE</button>
+</nav>
+
+<section class="hero">
+<h2>ENCONTRE SUA PRÓXIMA CONTA!</h2>
+<p>Contas selecionadas com preços especiais.</p>
+<button onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">VER PRODUTOS</button>
+</section>
+
+<h2 class="section">🎮 ESCOLHA SUA CATEGORIA</h2>
+<div class="categories">
+<div class="category" onclick="filtrar('Roblox')">🎮 ROBLOX</div>
+<div class="category" onclick="filtrar('Blox Fruits')">🍎 BLOX FRUITS</div>
+<div class="category" onclick="filtrar('Roube um Ovo')">🥚 ROUBE UM OVO</div>
+<div class="category" onclick="filtrar('Free Fire')">🔥 FREE FIRE</div>
+</div>
+
+<h2 class="section">🛒 VITRINE DE CONTAS</h2>
+<div id="products"></div>
+
+<div style="text-align:center">
+<button onclick="login()">👑 ÁREA DO DONO</button>
+</div>
 
 <div id="admin">
-<h2>👑 Painel do Dono</h2><input id="name" placeholder="Nome da conta"><select id="category">
+<h2>👑 PAINEL DO DONO</h2>
+<input id="name" placeholder="Nome da conta">
+<select id="category">
+<option>Roblox</option>
 <option>Blox Fruits</option>
 <option>Roube um Ovo</option>
 <option>Free Fire</option>
-<option>Roblox</option>
-</select><textarea id="description"
-placeholder="Descrição da conta"></textarea><input id="price" type="number"
-placeholder="Preço em reais (máximo R$20)">
+</select>
+<textarea id="description" placeholder="Descrição da conta"></textarea>
+<input id="price" type="number" placeholder="Preço (máximo R$20)">
+<p>Fotos da conta (até 3)</p>
+<input id="photos" type="file" accept="image/*" multiple>
+<button onclick="add()">PUBLICAR CONTA</button>
+<button onclick="logout()">SAIR</button>
+</div>
 
-<p>Adicionar até 3 prints:</p>
-<input type="file" id="photos"
-accept="image/*" multiple><button onclick="add()">Adicionar conta</button>
-<button onclick="logout()">Sair</button>
+<footer>
+<h2>BLOQUE JJ</h2>
+<p>Obrigado por comprar conosco!</p>
+<a href="https://www.instagram.com/gert.rudes62/" target="_blank">@gert.rudes62</a>
+</footer>
 
-</div><footer>
-<h2>🔥 BLOQUE JJ 🔥</h2>
-<p>Obrigado por visitar nossa loja!</p>
-<a href="https://www.instagram.com/gert.rudes62/"
-target="_blank">Instagram @gert.rudes62</a>
-</footer><script>
+<script>
 const senha="Vini12";
-
-let produtos=JSON.parse(
-localStorage.getItem("bloqueJJ")||"[]"
-);
+let produtos=JSON.parse(localStorage.getItem("bloqueJJ")||"[]");
+let filtro="Todas";
 
 function salvar(){
-localStorage.setItem(
-"bloqueJJ",JSON.stringify(produtos)
-);
+ localStorage.setItem("bloqueJJ",JSON.stringify(produtos));
 }
 
-function escapar(texto){
-return String(texto).replace(/[&<>"']/g,
-c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
-'"':"&quot;","'":"&#39;"}[c]));
+function escapar(t){
+ return String(t).replace(/[&<>"']/g,c=>({
+ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[c]));
 }
 
 function mostrar(){
-const area=document.getElementById("products");
-area.innerHTML="";
+ const area=document.getElementById("products");
+ area.innerHTML="";
+ const lista=produtos.filter(p=>filtro==="Todas"||p.categoria===filtro);
+ if(!lista.length){
+ area.innerHTML="<p style='grid-column:1/-1;text-align:center;color:#bba7d9'>Nenhuma conta nesta categoria ainda. Volte em breve!</p>";
+ }
+ lista.forEach(p=>{
+ const card=document.createElement("div");
+ card.className="card";
+ card.innerHTML=`
+ <h3>${escapar(p.nome)}</h3>
+ <p>${escapar(p.categoria)}</p>
+ <p>${escapar(p.descricao)}</p>
+ <div class="gallery"></div>
+ <p class="price">R$ ${p.preco.toFixed(2).replace(".",",")}</p>
+ <a class="buy" href="https://www.instagram.com/gert.rudes62/" target="_blank">COMPRAR</a>`;
+ (p.fotos||[]).forEach(f=>{
+ const img=document.createElement("img");
+ img.src=f;card.querySelector(".gallery").appendChild(img);
+ });
+ area.appendChild(card);
+ });
+}
 
-produtos.forEach(p=>{
-const card=document.createElement("div");
-card.className="card";
-
-card.innerHTML=`
-<h3>${escapar(p.nome)}</h3>
-<p>${escapar(p.categoria)}</p>
-<p>${escapar(p.descricao)}</p>
-<div class="gallery"></div>
-<p class="price">R$ ${p.preco.toFixed(2).replace(".",",")}</p>
-<a href="https://www.instagram.com/gert.rudes62/"
-target="_blank">COMPRAR</a>
-`;
-
-const galeria=card.querySelector(".gallery");
-
-(p.fotos||[]).forEach(f=>{
-const img=document.createElement("img");
-img.src=f;
-galeria.appendChild(img);
-});
-
-area.appendChild(card);
-});
+function filtrar(c){
+ filtro=c;mostrar();
+ document.getElementById("products").scrollIntoView({behavior:"smooth"});
 }
 
 function login(){
-if(prompt("Senha do dono:")===senha){
-document.getElementById("admin").style.display="block";
-}else{
-alert("Senha incorreta");
-}
+ if(prompt("Digite a senha do dono:")===senha){
+ document.getElementById("admin").style.display="block";
+ }else alert("Senha incorreta!");
 }
 
 function logout(){
-document.getElementById("admin").style.display="none";
-}
-
-async function add(){
-const nome=document.getElementById("name").value.trim();
-const categoria=document.getElementById("category").value;
-const descricao=document.getElementById("description").value.trim();
-const preco=Number(document.getElementById("price").value);
-const arquivos=document.getElementById("photos").files;
-
-if(!nome||!Number.isFinite(preco)||preco<=0||preco>20){
-alert("Coloque o nome e preço entre R$0,01 e R$20.");
-return;
-}
-
-if(arquivos.length>3){
-alert("Escolha no máximo 3 prints.");
-return;
-}
-
-try{
-const fotos=[];
-
-for(const arquivo of arquivos){
-if(!arquivo.type.startsWith("image/")){
-alert("Escolha somente imagens.");
-return;
-}
-
-fotos.push(await redimensionar(arquivo));
-}
-
-produtos.push({nome,categoria,descricao,preco,fotos});
-salvar();
-mostrar();
-
-document.getElementById("name").value="";
-document.getElementById("description").value="";
-document.getElementById("price").value="";
-document.getElementById("photos").value="";
-
-alert("Conta adicionada!");
-}catch(e){
-alert("Não foi possível salvar. Tente imagens menores.");
-}
+ document.getElementById("admin").style.display="none";
 }
 
 function redimensionar(file){
-return new Promise((resolve,reject)=>{
-const img=new Image();
-const reader=new FileReader();
+ return new Promise((resolve,reject)=>{
+ const img=new Image(),reader=new FileReader();
+ reader.onload=e=>{
+ img.onload=()=>{
+ const canvas=document.createElement("canvas");
+ const escala=Math.min(1,600/img.width,600/img.height);
+ canvas.width=img.width*escala;
+ canvas.height=img.height*escala;
+ canvas.getContext("2d").drawImage(img,0,0,canvas.width,canvas.height);
+ resolve(canvas.toDataURL("image/jpeg",0.7));
+ };
+ img.onerror=reject;img.src=e.target.result;
+ };
+ reader.onerror=reject;reader.readAsDataURL(file);
+ });
+}
 
-reader.onload=e=>{
-img.onload=()=>{
-const canvas=document.createElement("canvas");
-const max=600;
-const escala=Math.min(1,max/img.width,max/img.height);
+async function add(){
+ const nome=document.getElementById("name").value.trim();
+ const categoria=document.getElementById("category").value;
+ const descricao=document.getElementById("description").value.trim();
+ const preco=Number(document.getElementById("price").value);
+ const arquivos=document.getElementById("photos").files;
 
-canvas.width=img.width*escala;
-canvas.height=img.height*escala;
+ if(!nome||!Number.isFinite(preco)||preco<=0||preco>20){
+ alert("Informe o nome e um preço entre R$0,01 e R$20.");return;
+ }
+ if(arquivos.length>3){alert("Escolha até 3 fotos.");return;}
 
-canvas.getContext("2d").drawImage(
-img,0,0,canvas.width,canvas.height
-);
-
-resolve(canvas.toDataURL("image/jpeg",0.7));
-};
-img.onerror=reject;
-img.src=e.target.result;
-};
-
-reader.onerror=reject;
-reader.readAsDataURL(file);
-});
+ try{
+ const fotos=[];
+ for(const arquivo of arquivos){
+ if(!arquivo.type.startsWith("image/")){alert("Escolha imagens.");return;}
+ fotos.push(await redimensionar(arquivo));
+ }
+ produtos.push({nome,categoria,descricao,preco,fotos});
+ salvar();mostrar();
+ document.getElementById("name").value="";
+ document.getElementById("description").value="";
+ document.getElementById("price").value="";
+ document.getElementById("photos").value="";
+ alert("Conta publicada!");
+ }catch(e){alert("Erro ao adicionar. Tente fotos menores.");}
 }
 
 mostrar();
-</script></body>
+</script>
+</body>
 </html>
