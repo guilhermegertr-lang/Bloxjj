@@ -8,48 +8,33 @@
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#101018;color:white;font-family:Arial;text-align:center}
-header{background:linear-gradient(135deg,#e7193d,#760019);padding:30px 15px}
+header{background:linear-gradient(135deg,#d71936,#760019);padding:28px 15px}
 header h1{font-size:34px;margin:0}
 .container{padding:15px}
-button{border:0;border-radius:10px;padding:14px 18px;background:#e51b3e;color:white;font-weight:bold;cursor:pointer;margin:6px}
-button:active{transform:scale(.97)}
+button{border:0;border-radius:9px;padding:13px 18px;background:#e51b3e;color:white;font-weight:bold;cursor:pointer;margin:6px}
 .card{background:#20202c;border:1px solid #383849;border-radius:14px;padding:16px;margin:14px auto;max-width:440px}
-.card h3{color:#ff4964}
-input,textarea{width:100%;padding:13px;border-radius:8px;border:1px solid #555;margin:7px 0;background:#171721;color:white;font-size:16px}
+input,textarea{width:100%;padding:12px;border-radius:8px;border:1px solid #555;margin:7px 0;background:#171721;color:white}
 img{max-width:100%;border-radius:10px}
-#admin,#cartArea,#loginArea{display:none}
-#products{display:grid;grid-template-columns:1fr;gap:10px}
+#admin,#loginArea{display:none}
 footer{padding:25px;color:#aaa}
 </style>
 </head>
 <body>
-
 <header>
 <h1>🔥 BLOKO JJ 🔥</h1>
 <p>As melhores contas estão aqui!</p>
 </header>
-
 <div class="container">
-
 <h2>🛍️ NOSSA LOJA</h2>
 <div id="products"></div>
-
-<button onclick="toggleCart()">🛒 ABRIR MEU CARRINHO</button>
-
-<section id="cartArea">
-<div class="card">
 <h2>🛒 MEU CARRINHO</h2>
+<div class="card">
 <div id="cart">Carrinho vazio</div>
 <h3 id="total">Total: R$ 0,00</h3>
 <button onclick="finishOrder()">FINALIZAR PEDIDO</button>
-<button onclick="toggleCart()">FECHAR CARRINHO</button>
 </div>
-</section>
-
 <hr>
-
 <button onclick="openLogin()">👑 ÁREA DO DONO</button>
-
 <section id="loginArea">
 <div class="card">
 <h2>🔐 ACESSO DO DONO</h2>
@@ -59,239 +44,69 @@ footer{padding:25px;color:#aaa}
 <p id="loginMessage"></p>
 </div>
 </section>
-
 <section id="admin">
 <div class="card">
 <h2>👑 PAINEL DO DONO</h2>
-<h3>ADICIONAR PRODUTO</h3>
-
 <input id="name" placeholder="Nome do produto">
-<input id="price" placeholder="Preço (ex: 25,00)">
-<input id="photo" placeholder="Link da foto">
-<textarea id="description" placeholder="Descrição do produto"></textarea>
-
-<button onclick="addProduct()">➕ ADICIONAR PRODUTO</button>
-
-<h3>📦 PRODUTOS CADASTRADOS</h3>
+<input id="price" placeholder="Preço">
+<label for="photo">📁 ESCOLHER PRINT DA GALERIA</label>
+<input id="photo" type="file" accept="image/*">
+<div id="preview"></div>
+<textarea id="description" placeholder="Descrição"></textarea>
+<button onclick="addProduct()">ADICIONAR PRODUTO</button>
+<h3>Produtos cadastrados</h3>
 <div id="adminProducts"></div>
-
 <button onclick="logout()">SAIR DO PAINEL</button>
 </div>
 </section>
-
 </div>
-
 <footer>BLOKO JJ © 2026</footer>
-
 <script>
 let cart=[];
 
 function getProducts(){
-try{
-return JSON.parse(localStorage.getItem("blokoProducts")||"[]");
-}catch(e){return [];}
+try{return JSON.parse(localStorage.getItem("blokoProducts")||"[]")}
+catch(e){return []}
 }
-
-function saveProducts(products){
-localStorage.setItem("blokoProducts",JSON.stringify(products));
+function saveProducts(p){
+localStorage.setItem("blokoProducts",JSON.stringify(p));
 }
-
 function openLogin(){
 document.getElementById("loginArea").style.display="block";
-document.getElementById("loginArea").scrollIntoView({behavior:"smooth"});
 }
-
 function closeLogin(){
 document.getElementById("loginArea").style.display="none";
 }
-
 function login(){
-const senha=document.getElementById("ownerPassword").value;
-
-if(senha==="jj2026"){
+if(document.getElementById("ownerPassword").value==="jj2026"){
 document.getElementById("loginArea").style.display="none";
 document.getElementById("admin").style.display="block";
-document.getElementById("ownerPassword").value="";
 showAdminProducts();
-document.getElementById("admin").scrollIntoView({behavior:"smooth"});
 }else{
 document.getElementById("loginMessage").textContent="Senha incorreta!";
 }
 }
-
 function logout(){
 document.getElementById("admin").style.display="none";
-window.scrollTo({top:0,behavior:"smooth"});
 }
-
-function toggleCart(){
-const area=document.getElementById("cartArea");
-area.style.display=area.style.display==="block"?"none":"block";
-if(area.style.display==="block"){
-updateCart();
-area.scrollIntoView({behavior:"smooth"});
-}
-}
-
-function addCart(index){
-const products=getProducts();
-const product=products[index];
-if(!product)return;
-cart.push(product);
-updateCart();
-alert("Produto adicionado ao carrinho!");
-}
-
-function removeCart(index){
-cart.splice(index,1);
-updateCart();
-}
-
-function updateCart(){
-const area=document.getElementById("cart");
-let total=0;
-
-if(cart.length===0){
-area.textContent="Carrinho vazio";
-document.getElementById("total").textContent="Total: R$ 0,00";
+document.getElementById("photo").addEventListener("change",function(){
+const file=this.files[0];
+if(!file)return;
+if(file.size>2*1024*1024){
+alert("Escolha uma imagem de até 2 MB");
+this.value="";
 return;
 }
-
-area.innerHTML="";
-cart.forEach((p,i)=>{
-let price=Number(String(p.price).replace(",","."));
-if(Number.isFinite(price))total+=price;
-
-let item=document.createElement("div");
-item.className="card";
-let name=document.createElement("p");
-name.textContent=p.name;
-let value=document.createElement("p");
-value.textContent="R$ "+p.price;
-let remove=document.createElement("button");
-remove.textContent="REMOVER";
-remove.onclick=()=>removeCart(i);
-item.append(name,value,remove);
-area.appendChild(item);
-});
-
-document.getElementById("total").textContent=
-"Total: R$ "+total.toFixed(2).replace(".",",");
-}
-
-function finishOrder(){
-if(cart.length===0){
-alert("Seu carrinho está vazio!");
-return;
-}
-let resumo=cart.map(p=>p.name+" - R$ "+p.price).join("\n");
-alert("Resumo do pedido:\n"+resumo+"\nEntre em contato com o dono para combinar o pagamento e a entrega.");
-}
-
-function addProduct(){
-const name=document.getElementById("name").value.trim();
-const price=document.getElementById("price").value.trim();
-const photo=document.getElementById("photo").value.trim();
-const description=document.getElementById("description").value.trim();
-
-if(!name||!price){
-alert("Preencha o nome e o preço!");
-return;
-}
-
-if(photo&&!/^https?:\/\//i.test(photo)){
-alert("Coloque um link válido para a foto!");
-return;
-}
-
-const products=getProducts();
-products.push({name,price,photo,description});
-saveProducts(products);
-
-document.getElementById("name").value="";
-document.getElementById("price").value="";
-document.getElementById("photo").value="";
-document.getElementById("description").value="";
-
-showProducts();
-showAdminProducts();
-alert("Produto cadastrado com sucesso!");
-}
-
-function showProducts(){
-const products=getProducts();
-const area=document.getElementById("products");
-area.innerHTML="";
-
-if(products.length===0){
-area.innerHTML='<div class="card"><h3>Bem-vindo à BLOKO JJ!</h3><p>Em breve, novos produtos!</p></div>';
-return;
-}
-
-products.forEach((p,i)=>{
-const card=document.createElement("div");
-card.className="card";
-
-if(p.photo){
+const reader=new FileReader();
+reader.onload=()=>{
+document.getElementById("preview").innerHTML="";
 const img=document.createElement("img");
-img.src=p.photo;
-img.alt=p.name;
-card.appendChild(img);
-}
-
-const title=document.createElement("h3");
-title.textContent=p.name;
-
-const desc=document.createElement("p");
-desc.textContent=p.description;
-
-const price=document.createElement("p");
-price.textContent="R$ "+p.price;
-
-const buy=document.createElement("button");
-buy.textContent="🛒 COMPRAR";
-buy.onclick=()=>addCart(i);
-
-card.append(title,desc,price,buy);
-area.appendChild(card);
+img.src=reader.result;
+img.style.maxWidth="220px";
+document.getElementById("preview").appendChild(img);
+};
+reader.readAsDataURL(file);
 });
-}
-
-function showAdminProducts(){
-const products=getProducts();
-const area=document.getElementById("adminProducts");
-area.innerHTML="";
-
-if(products.length===0){
-area.textContent="Nenhum produto cadastrado.";
-return;
-}
-
-products.forEach((p,i)=>{
-const card=document.createElement("div");
-card.className="card";
-
-const name=document.createElement("p");
-name.textContent=p.name+" - R$ "+p.price;
-
-const del=document.createElement("button");
-del.textContent="EXCLUIR";
-del.onclick=()=>deleteProduct(i);
-
-card.append(name,del);
-area.appendChild(card);
-});
-}
-
-function deleteProduct(i){
-const products=getProducts();
-products.splice(i,1);
-saveProducts(products);
-showProducts();
-showAdminProducts();
-}
-
-showProducts();
 </script>
 </body>
 </html>
